@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: alphaflow
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "cd alphaflow/web_platform/backend && gunicorn app:app --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: NODE_VERSION
+        value: 20.x
