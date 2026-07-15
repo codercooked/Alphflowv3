@@ -31,12 +31,13 @@ options_engine = OptionsEngine()
 options_strategy = OptionsStrategy()
 
 # --- RAZORPAY CONFIGURATION ---
-RAZORPAY_KEY_ID = "rzp_live_Rqf5RRcKnSL1Ch"
-RAZORPAY_KEY_SECRET = "ubJaGMFKBWtERZ5CeFbRK1yq"
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
+RAZORPAY_ENABLED = bool(RAZORPAY_AVAILABLE and RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET)
 
 # --- SUPABASE CONFIGURATION ---
-SUPABASE_URL = "https://fpcddsepudlqcvjutypm.supabase.co"
-SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwY2Rkc2VwdWRscWN2anV0eXBtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDA2OTcyOSwiZXhwIjoyMDc5NjQ1NzI5fQ.X-7cIrXJ0YPLRYGVyLdzO7YJg0OAJbzfE5pKEvvIRIk"
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 # ==========================================
 #              HEALTH CHECK
@@ -62,8 +63,8 @@ def test_fundamentals(ticker):
 
 @app.route('/api/create-order', methods=['POST'])
 def create_order():
-    if not RAZORPAY_AVAILABLE:
-        return jsonify({"error": "Razorpay not initialized"}), 500
+    if not RAZORPAY_ENABLED:
+        return jsonify({"error": "Razorpay is not configured"}), 500
     
     try:
         data = request.json
@@ -89,8 +90,8 @@ def create_order():
 
 @app.route('/api/verify-payment', methods=['POST'])
 def verify_payment():
-    if not RAZORPAY_AVAILABLE:
-        return jsonify({"error": "Razorpay not initialized"}), 500
+    if not RAZORPAY_ENABLED:
+        return jsonify({"error": "Razorpay is not configured"}), 500
         
     try:
         data = request.json
@@ -120,7 +121,7 @@ def verify_payment():
              print(f"⚠️ Capture Checks Failed: {capture_err}")
         
         # --- SERVER-SIDE PERSISTENCE (SUPABASE) ---
-        if user_id:
+        if user_id and SUPABASE_URL and SUPABASE_SERVICE_KEY:
             try:
                 from datetime import datetime, timedelta
                 expiry_date = (datetime.now() + timedelta(days=30)).isoformat()
@@ -147,6 +148,8 @@ def verify_payment():
                     
             except Exception as se:
                 print(f"❌ Supabase Sync Exception: {se}")
+        elif user_id:
+            print("⚠️ Supabase credentials are not configured; skipping user metadata update.")
 
         # Payment Successful
         print(f"✅ Payment Verified: {razorpay_payment_id}")

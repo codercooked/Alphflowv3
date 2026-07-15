@@ -3809,7 +3809,10 @@ def generate_mock_news():
 
 def get_ai_news():
     """Fetches REAL LIVE news from NewsAPI.ai"""
-    API_KEY = "52d473c7f3fc47e398df4d903344ba3a"
+    API_KEY = os.environ.get("EVENTREGISTRY_API_KEY")
+    if not API_KEY:
+        return generate_mock_news()
+
     API_URL = f"http://eventregistry.org/api/v1/article/getArticles?apiKey={API_KEY}&resultType=articles&articlesCount=15&lang=eng&sortBy=date&sourceLocationUri=http://en.wikipedia.org/wiki/India"
     
     news_feed = []
