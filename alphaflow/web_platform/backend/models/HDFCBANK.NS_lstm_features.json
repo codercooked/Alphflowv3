@@ -1,0 +1,1 @@
+{"features": ["Close", "Volume", "RSI", "MACD", "Volatility"], "seq_length": 10}
