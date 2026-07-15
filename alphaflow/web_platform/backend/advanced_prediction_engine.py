@@ -14,12 +14,24 @@ Author: AlphaFlow AI System
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
-from scipy.stats import norm
+from math import erf, exp, pi, sqrt
 import warnings
 from tv_helper import fetch_tradingview_analysis
 
 warnings.filterwarnings('ignore')
+
+try:
+    from scipy.optimize import minimize
+except Exception:
+    minimize = None
+
+
+def _norm_cdf(x):
+    return 0.5 * (1.0 + erf(x / sqrt(2.0)))
+
+
+def _norm_pdf(x):
+    return exp(-0.5 * x * x) / sqrt(2.0 * pi)
 
 
 # =============================================================================
@@ -100,6 +112,8 @@ def garch_volatility_forecast(returns_series, forecast_horizon=1):
 
     method_used = "GARCH_MLE"
     try:
+        if minimize is None:
+            raise RuntimeError("scipy.optimize.minimize unavailable")
         result = minimize(
             neg_log_likelihood,
             x0,

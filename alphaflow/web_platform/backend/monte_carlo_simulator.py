@@ -15,9 +15,22 @@ Original: tubakhxn (MIT License)
 
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
+from math import erf, exp, pi, sqrt
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Optional
+
+
+class _Norm:
+    @staticmethod
+    def cdf(x):
+        return 0.5 * (1.0 + erf(x / sqrt(2.0)))
+
+    @staticmethod
+    def pdf(x):
+        return exp(-0.5 * x * x) / sqrt(2.0 * pi)
+
+
+norm = _Norm()
 
 # =============================================================================
 # Geometric Brownian Motion (GBM) Simulation
