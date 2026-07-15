@@ -13,6 +13,7 @@ cd ../../../
 
 # 2. Install backend dependencies
 echo "Installing Python dependencies..."
-pip install -r alphaflow/web_platform/backend/requirements.txt
+python -m pip install --upgrade pip setuptools wheel
+pip install --prefer-binary -r alphaflow/web_platform/backend/requirements.txt
 
 echo "Build complete!"
