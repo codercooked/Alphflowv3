@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -178,7 +178,7 @@ export default function StockAnalysisPage() {
   const [loading, setLoading] = useState(true);
   const [loadingOptions, setLoadingOptions] = useState(false);
   const [error, setError] = useState(null);
-  const requestIdRef = React.useRef(0);
+  const requestIdRef = useRef(0);
 
   // Fetch Nifty Quick Watchlist details
   useEffect(() => {
