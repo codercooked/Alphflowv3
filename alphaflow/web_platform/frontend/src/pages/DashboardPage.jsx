@@ -256,9 +256,7 @@ export default function DashboardPage() {
                     return (
                       <tr
                         key={p.symbol || idx}
-                        onClick={() =>
-                          navigate(`/stocks/${p.symbol || p.ticker}`)
-                        }
+                        onClick={() => navigate(`/stocks/${encodeURIComponent(p.symbol || p.ticker)}`)}
                         className="hover:bg-[#fafafa] cursor-pointer transition-colors"
                       >
                         <td className="px-6 py-4 font-medium text-[#94a3b8]">

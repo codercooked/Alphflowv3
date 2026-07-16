@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createChart, ColorType, CrosshairMode, CandlestickSeries, AreaSeries, LineSeries } from 'lightweight-charts';
 
 const DEFAULT_COLORS = {
@@ -25,11 +25,9 @@ export default function PriceChart({
   const seriesRef = useRef(null);
 
   const mergedColors = React.useMemo(() => ({ ...DEFAULT_COLORS, ...colors }), [JSON.stringify(colors)]);
-
-  const initChart = useCallback(() => {
+  useEffect(() => {
     if (!containerRef.current) return;
 
-    // Cleanup existing chart
     if (chartRef.current) {
       chartRef.current.remove();
       chartRef.current = null;
@@ -54,7 +52,7 @@ export default function PriceChart({
         vertLine: {
           color: '#94a3b8',
           width: 1,
-          style: 3, // dashed
+          style: 3,
           labelBackgroundColor: '#1a1a2e',
         },
         horzLine: {
@@ -64,9 +62,7 @@ export default function PriceChart({
           labelBackgroundColor: '#1a1a2e',
         },
       },
-      rightPriceScale: {
-        borderColor: mergedColors.gridColor,
-      },
+      rightPriceScale: { borderColor: mergedColors.gridColor },
       timeScale: {
         borderColor: mergedColors.gridColor,
         timeVisible: true,
@@ -75,7 +71,6 @@ export default function PriceChart({
       handleScroll: { vertTouchDrag: false },
     });
 
-    // Add series based on type
     let series;
     if (type === 'candlestick') {
       series = chart.addSeries(CandlestickSeries, {
@@ -94,14 +89,12 @@ export default function PriceChart({
         lineWidth: 2,
       });
     } else {
-      // line
       series = chart.addSeries(LineSeries, {
         color: mergedColors.lineColor,
         lineWidth: 2,
       });
     }
 
-    // Format prices with ₹
     series.applyOptions({
       priceFormat: {
         type: 'custom',
@@ -114,30 +107,30 @@ export default function PriceChart({
       },
     });
 
-    try {
-      if (data.length > 0) {
-        series.setData(data);
-        chart.timeScale().fitContent();
-      }
-    } catch (err) {
-      console.error("PriceChart data error:", err);
-    }
-
     chartRef.current = chart;
     seriesRef.current = series;
-  }, [type, height, data, mergedColors]);
 
-  // Initialize chart
-  useEffect(() => {
-    initChart();
     return () => {
-      if (chartRef.current) {
-        chartRef.current.remove();
+      chart.remove();
+      if (chartRef.current === chart) {
         chartRef.current = null;
         seriesRef.current = null;
       }
     };
-  }, [initChart]);
+  }, [type, height, mergedColors]);
+
+  useEffect(() => {
+    if (!chartRef.current || !seriesRef.current) return;
+
+    try {
+      seriesRef.current.setData(data);
+      if (data.length > 0) {
+        chartRef.current.timeScale().fitContent();
+      }
+    } catch (err) {
+      console.error("PriceChart data error:", err);
+    }
+  }, [data]);
 
   // ResizeObserver for auto-resize
   useEffect(() => {

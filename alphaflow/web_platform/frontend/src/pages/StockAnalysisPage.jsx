@@ -178,6 +178,7 @@ export default function StockAnalysisPage() {
   const [loading, setLoading] = useState(true);
   const [loadingOptions, setLoadingOptions] = useState(false);
   const [error, setError] = useState(null);
+  const requestIdRef = React.useRef(0);
 
   // Fetch Nifty Quick Watchlist details
   useEffect(() => {
@@ -190,13 +191,18 @@ export default function StockAnalysisPage() {
 
   // Fetch full analysis data, options analysis, and news feed
   const fetchData = async (tickerSymbol) => {
+    const requestId = ++requestIdRef.current;
     setLoading(true);
     setError(null);
+    setRawStockData(null);
     setRawOptionsData(null);
+    setNewsFeed([]);
+    setLoadingOptions(false);
     
     try {
       // 1. Fetch analysis data
       const analysis = await api.analyzeStock(tickerSymbol);
+      if (requestId !== requestIdRef.current) return;
       if (analysis && analysis.error) {
         throw new Error(analysis.error);
       }
@@ -206,15 +212,20 @@ export default function StockAnalysisPage() {
       setLoadingOptions(true);
       try {
         const options = await api.getOptions(tickerSymbol);
+        if (requestId !== requestIdRef.current) return;
         setRawOptionsData(options);
       } catch (optErr) {
         console.log("No options data available for this ticker");
+      } finally {
+        if (requestId === requestIdRef.current) {
+          setLoadingOptions(false);
+        }
       }
-      setLoadingOptions(false);
 
       // 3. Fetch live news feed
       try {
         const news = await api.getNews();
+        if (requestId !== requestIdRef.current) return;
         if (Array.isArray(news)) {
           setNewsFeed(news);
         }
@@ -223,10 +234,13 @@ export default function StockAnalysisPage() {
       }
 
     } catch (err) {
+      if (requestId !== requestIdRef.current) return;
       console.error(err);
       setError(err.message || 'Unable to fetch stock indicators.');
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   };
 
@@ -238,7 +252,7 @@ export default function StockAnalysisPage() {
   const handleSelectStock = (symbol) => {
     setSearchQuery('');
     setShowDropdown(false);
-    navigate(`/stocks/${symbol}`);
+    navigate(`/stocks/${encodeURIComponent(symbol)}`);
   };
 
   // Autocomplete Filter

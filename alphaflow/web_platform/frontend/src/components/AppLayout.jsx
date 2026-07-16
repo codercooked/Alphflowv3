@@ -48,7 +48,7 @@ export default function AppLayout({ children }) {
   const navigate = useNavigate();
 
   const handleSearchSelect = useCallback((symbol) => {
-    navigate(`/stocks/${symbol}`);
+    navigate(`/stocks/${encodeURIComponent(symbol)}`);
     setSearchOpen(false);
   }, [navigate]);
 
