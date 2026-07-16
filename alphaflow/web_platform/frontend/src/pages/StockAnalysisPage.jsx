@@ -80,9 +80,9 @@ function Skeleton({ className = '' }) {
 /* ─── Custom Layout Card ─── */
 function SectionCard({ title, icon: Icon, rightAction, children, className = '', contentClassName = '' }) {
   return (
-    <div className={`rounded-xl border border-[var(--border-light)] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col ${className}`}>
+    <div className={`rounded-xl border border-[var(--border-light)] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col sm:p-6 ${className}`}>
       {title && (
-        <div className="pb-4 border-b border-[var(--border-light)] mb-5 flex items-center justify-between shrink-0">
+        <div className="mb-4 flex shrink-0 flex-col gap-3 border-b border-[var(--border-light)] pb-4 sm:mb-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             {Icon && <Icon className="w-4.5 h-4.5 text-[var(--accent-brand)]" />}
             <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-primary)]">{title}</h3>
@@ -371,7 +371,7 @@ export default function StockAnalysisPage() {
         <div className="grid grid-cols-1 gap-6 items-start xl:grid-cols-12 xl:gap-8">
           
           {/* ─── LEFT COLUMN: Search & Watchlist Sidebar (lg:col-span-3) ─── */}
-          <div className="space-y-6 xl:col-span-3">
+          <div className="order-2 space-y-6 xl:order-1 xl:col-span-3">
             
             {/* Search Input Widget */}
             <div className="relative">
@@ -476,7 +476,7 @@ export default function StockAnalysisPage() {
           </div>
 
           {/* ─── RIGHT COLUMN: Charts, News, & AI Predictions (lg:col-span-9) ─── */}
-          <div className="min-w-0 space-y-6 xl:col-span-9">
+          <div className="order-1 min-w-0 space-y-6 xl:order-2 xl:col-span-9">
 
             {/* Error view */}
             {error ? (
@@ -556,7 +556,7 @@ export default function StockAnalysisPage() {
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex border-b border-[var(--border-light)] gap-6 text-sm font-medium overflow-x-auto pb-px">
+                <div className="flex gap-3 overflow-x-auto border-b border-[var(--border-light)] pb-px text-sm font-medium sm:gap-6">
                   <button
                     onClick={() => setActiveTab('overview')}
                     className={`pb-3.5 border-b-2 font-bold tracking-tight uppercase text-xs transition-all flex items-center gap-2 whitespace-nowrap ${
@@ -602,14 +602,14 @@ export default function StockAnalysisPage() {
                 {/* Tab Content Panel */}
                 {activeTab === 'overview' && (
                   <div className="space-y-6 mt-2">
-                    <div className={isChartFullscreen ? "fixed inset-0 z-[100] bg-neutral-900/50 p-4 sm:p-12 backdrop-blur-sm flex flex-col" : ""}>
+                    <div className={isChartFullscreen ? "fixed inset-0 z-[100] flex flex-col bg-neutral-900/50 p-2 backdrop-blur-sm sm:p-6 md:p-12" : ""}>
                       <SectionCard
                         title="Interactive Price Chart"
                         className={isChartFullscreen ? "flex-1 flex flex-col shadow-2xl border-none ring-1 ring-black/5" : ""}
                         contentClassName={isChartFullscreen ? "flex-1 min-h-0 relative" : ""}
                         icon={BarChart3}
                         rightAction={
-                          <div className="flex items-center gap-4">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                             <div className="flex rounded border border-[var(--border-light)] overflow-hidden bg-neutral-50 p-0.5">
                               <button
                                 onClick={() => setChartType('candlestick')}
@@ -628,7 +628,7 @@ export default function StockAnalysisPage() {
                                 Line
                               </button>
                             </div>
-                            <div className="flex items-center gap-1.5 border-l border-[var(--border-light)] pl-4">
+                            <div className="flex items-center gap-1.5 border-l border-[var(--border-light)] pl-3 sm:pl-4">
                               {['1W', '1M', '1Y', 'all'].map((tf) => (
                                 <button
                                   key={tf}
@@ -643,7 +643,7 @@ export default function StockAnalysisPage() {
                             </div>
                             <button
                               onClick={() => setIsChartFullscreen(!isChartFullscreen)}
-                              className="ml-2 p-1.5 text-neutral-400 hover:text-[var(--text-primary)] hover:bg-neutral-100 rounded transition-colors"
+                              className="ml-1 rounded p-1.5 text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-[var(--text-primary)] sm:ml-2"
                             >
                               {isChartFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
                             </button>
@@ -1085,7 +1085,7 @@ export default function StockAnalysisPage() {
                     {fundamentals.analyst_target_mean && (
                       <SectionCard title="Analyst Targets vs Current Price" icon={Target}>
                         <div className="space-y-4 font-mono text-xs">
-                          <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
+                          <div className="grid grid-cols-1 gap-2 text-center sm:grid-cols-2 md:grid-cols-4">
                             <div className="p-3.5 border border-[var(--border-light)] bg-neutral-50/50 rounded-lg">
                               <span className="text-[9px] text-neutral-400 uppercase">Low target</span>
                               <p className="text-sm font-bold text-rose-600 mt-1">{formatPrice(fundamentals.analyst_target_low, activeTicker)}</p>
