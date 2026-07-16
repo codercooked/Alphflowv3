@@ -129,7 +129,7 @@ export default function SearchModal({ open, onClose, onSelect }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
+      className="fixed inset-0 z-50 flex items-start justify-center p-3 pt-[12vh] sm:p-4 sm:pt-[15vh]"
       onClick={onClose}
     >
       {/* Backdrop */}
@@ -142,14 +142,14 @@ export default function SearchModal({ open, onClose, onSelect }) {
 
       {/* Modal */}
       <div
-        className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="relative z-10 w-full max-w-[min(42rem,100vw-1.5rem)] overflow-hidden rounded-2xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         style={{
           animation: 'searchScaleIn 150ms ease-out',
         }}
       >
         {/* Search Input */}
-        <div className="flex items-center gap-3 border-b border-[#e5e7eb] px-4 py-3">
+        <div className="flex items-center gap-2.5 border-b border-[#e5e7eb] px-3 py-3 sm:px-4">
           <Search size={18} className="shrink-0 text-[#94a3b8]" />
           <input
             ref={inputRef}
@@ -213,7 +213,7 @@ export default function SearchModal({ open, onClose, onSelect }) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center gap-4 border-t border-[#e5e7eb] px-4 py-2 text-[10px] text-[#94a3b8]">
+        <div className="flex flex-wrap items-center gap-3 border-t border-[#e5e7eb] px-3 py-2 text-[10px] text-[#94a3b8] sm:px-4">
           <span className="flex items-center gap-1">
             <kbd className="rounded border border-[#e5e7eb] bg-[#f4f5f7] px-1 py-0.5">↑↓</kbd>
             navigate

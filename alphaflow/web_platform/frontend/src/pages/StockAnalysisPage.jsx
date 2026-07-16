@@ -367,11 +367,11 @@ export default function StockAnalysisPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-6 lg:px-6 xl:px-8">
+        <div className="grid grid-cols-1 gap-6 items-start xl:grid-cols-12 xl:gap-8">
           
           {/* ─── LEFT COLUMN: Search & Watchlist Sidebar (lg:col-span-3) ─── */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="space-y-6 xl:col-span-3">
             
             {/* Search Input Widget */}
             <div className="relative">
@@ -476,7 +476,7 @@ export default function StockAnalysisPage() {
           </div>
 
           {/* ─── RIGHT COLUMN: Charts, News, & AI Predictions (lg:col-span-9) ─── */}
-          <div className="lg:col-span-9 space-y-6">
+          <div className="min-w-0 space-y-6 xl:col-span-9">
 
             {/* Error view */}
             {error ? (
@@ -664,7 +664,7 @@ export default function StockAnalysisPage() {
                       </SectionCard>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       {/* Prediction panel */}
                       <SectionCard title="AI Predictive Core" icon={Cpu}>
                         {loading ? (
@@ -703,7 +703,7 @@ export default function StockAnalysisPage() {
                             {prediction.model_predictions ? (
                               <div className="border-t border-[var(--border-light)] pt-4 space-y-3">
                                 <p className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">Model Ensemble Weights</p>
-                                <div className="grid grid-cols-2 gap-2 text-[10px] font-mono">
+                                <div className="grid grid-cols-1 gap-2 text-[10px] font-mono sm:grid-cols-2">
                                   {prediction.model_predictions.map((m, idx) => (
                                     <div key={idx} className="p-2 border border-[var(--border-light)] bg-neutral-50/50 rounded-lg">
                                       <p className="font-bold text-[var(--text-primary)] capitalize">{m.model_name.replace('_', ' ')}</p>
@@ -738,7 +738,7 @@ export default function StockAnalysisPage() {
                               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{optionsData.recommendation.reason}</p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                            <div className="grid grid-cols-1 gap-3 text-xs font-mono sm:grid-cols-2">
                               <div className="p-2.5 rounded border border-[var(--border-light)] bg-white">
                                 <span className="text-[10px] text-neutral-400 uppercase">Max profit</span>
                                 <p className="font-bold text-emerald-600 mt-1">{optionsData.recommendation.max_profit || 'Unlimited'}</p>
@@ -829,11 +829,11 @@ export default function StockAnalysisPage() {
 
                 {activeTab === 'technicals' && (
                   <div className="space-y-6 mt-2">
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       {/* Support & Resistance Card */}
                       <SectionCard title="Chart Pattern & Range Boundaries" icon={TrendingUp}>
                         <div className="space-y-6 text-xs font-mono">
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="p-3 border border-[var(--border-light)] bg-rose-50/20 rounded-lg">
                               <span className="text-[9px] text-rose-600 uppercase font-bold tracking-wider">Support Level</span>
                               <p className="text-base font-bold text-rose-700 mt-1">
@@ -896,7 +896,7 @@ export default function StockAnalysisPage() {
                       {/* GARCH & Kalman Volatility watch */}
                       <SectionCard title="Volatility Regime & VIX Watch" icon={Shield}>
                         <div className="space-y-4 font-mono text-xs">
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <div className="p-3 border border-[var(--border-light)] bg-neutral-50 rounded-lg">
                               <span className="text-[9px] text-neutral-400 uppercase">GARCH Volatility</span>
                               <p className="font-bold text-[var(--text-primary)] mt-1">
@@ -947,11 +947,11 @@ export default function StockAnalysisPage() {
                       </SectionCard>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       {/* Technical Indicators List */}
                       <SectionCard title="Technical indicators log" icon={Activity}>
                         {tech && Object.keys(tech).length > 0 ? (
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                             {Object.entries(tech).map(([key, val]) => (
                               <div key={key} className="p-3 rounded-lg border border-[var(--border-light)] bg-neutral-50/30 flex items-center justify-between">
                                 <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wide">
@@ -972,7 +972,7 @@ export default function StockAnalysisPage() {
                       <SectionCard title="Monte Carlo Range Simulator" icon={Shield}>
                         {mc ? (
                           <div className="space-y-4">
-                            <div className="grid grid-cols-3 gap-2 text-center font-mono">
+                            <div className="grid grid-cols-1 gap-2 text-center font-mono sm:grid-cols-3">
                               <div className="p-3.5 border border-[var(--border-light)] bg-neutral-50/50 rounded-lg">
                                 <span className="text-[9px] text-neutral-400 uppercase">Lower Bound</span>
                                 <p className="text-sm font-bold text-rose-600 mt-1">{formatPrice(mc.lower_bound, activeTicker)}</p>
@@ -1001,11 +1001,11 @@ export default function StockAnalysisPage() {
 
                 {activeTab === 'fundamentals' && (
                   <div className="space-y-6 mt-2">
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                       {/* Summary Fundamentals cards */}
                       <div className="md:col-span-2">
                         <SectionCard title="Equity Fundamentals & Ratios" icon={Coins}>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono">
+                          <div className="grid grid-cols-1 gap-4 text-xs font-mono sm:grid-cols-2 lg:grid-cols-3">
                             <div className="p-3 border border-[var(--border-light)] rounded-xl bg-neutral-50/30">
                               <span className="text-[9px] text-neutral-400 uppercase">Market Capitalization</span>
                               <p className="text-sm font-bold text-[var(--text-primary)] mt-1">{marketCap}</p>
@@ -1085,7 +1085,7 @@ export default function StockAnalysisPage() {
                     {fundamentals.analyst_target_mean && (
                       <SectionCard title="Analyst Targets vs Current Price" icon={Target}>
                         <div className="space-y-4 font-mono text-xs">
-                          <div className="grid grid-cols-4 gap-2 text-center">
+                          <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
                             <div className="p-3.5 border border-[var(--border-light)] bg-neutral-50/50 rounded-lg">
                               <span className="text-[9px] text-neutral-400 uppercase">Low target</span>
                               <p className="text-sm font-bold text-rose-600 mt-1">{formatPrice(fundamentals.analyst_target_low, activeTicker)}</p>
@@ -1130,7 +1130,7 @@ export default function StockAnalysisPage() {
 
                 {activeTab === 'accuracy' && (
                   <div className="space-y-6 mt-2">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
                       {/* Metrics Cards */}
                       <div className="p-4 rounded-xl border border-[var(--border-light)] bg-white text-center font-mono space-y-1">
                         <span className="text-[9px] text-neutral-400 uppercase">Walker backtest accuracy</span>
@@ -1150,7 +1150,7 @@ export default function StockAnalysisPage() {
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                       {/* Walk forward backtest log */}
                       <div className="md:col-span-2">
                         <SectionCard title="Walk-Forward backtest log (Last 20 Days)" icon={Award}>

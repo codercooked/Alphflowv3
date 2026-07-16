@@ -53,7 +53,7 @@ export default function AppLayout({ children }) {
   }, [navigate]);
 
   return (
-    <div className="flex h-screen bg-transparent">
+    <div className="flex min-h-dvh bg-transparent">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -66,17 +66,17 @@ export default function AppLayout({ children }) {
             className="absolute inset-0 bg-black/30"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative z-10 h-full w-60">
+          <div className="relative z-10 h-dvh w-60 max-w-[85vw]">
             <Sidebar />
           </div>
         </div>
       )}
 
       {/* Main Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--border-light)] bg-[var(--bg-primary)]/80 backdrop-blur-md px-4 lg:px-6">
-          <div className="flex items-center gap-3">
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--border-light)] bg-[var(--bg-primary)]/80 px-3 backdrop-blur-md sm:px-4 lg:px-6">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             {/* Mobile hamburger */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -85,16 +85,16 @@ export default function AppLayout({ children }) {
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
-            <h1 className="text-base font-semibold text-[var(--text-primary)]">
+            <h1 className="truncate text-sm font-semibold text-[var(--text-primary)] sm:text-base">
               {pageTitle}
             </h1>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Search trigger */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-secondary)] px-3 py-1.5 text-sm text-[var(--text-muted)] transition-colors hover:border-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+              className="flex items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1.5 text-sm text-[var(--text-muted)] transition-colors hover:border-[var(--text-muted)] hover:text-[var(--text-secondary)] sm:px-3"
             >
               <Search size={14} />
               <span className="hidden sm:inline">Search stocks...</span>
@@ -112,7 +112,7 @@ export default function AppLayout({ children }) {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className="flex-1 min-w-0 overflow-y-auto p-3 sm:p-4 lg:p-6">
           {children}
         </main>
       </div>

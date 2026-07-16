@@ -26,9 +26,9 @@ export default function Sidebar({ activePage }) {
   };
 
   return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-[var(--border-light)] bg-[var(--bg-primary)]">
+    <aside className="flex h-full min-h-dvh w-60 shrink-0 flex-col border-r border-[var(--border-light)] bg-[var(--bg-primary)]">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-5 py-5">
+      <div className="flex items-center gap-2.5 px-4 py-4 sm:px-5 sm:py-5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--accent-brand)] text-sm font-bold text-white">
           α
         </div>
@@ -38,7 +38,7 @@ export default function Sidebar({ activePage }) {
       </div>
 
       {/* Navigation */}
-      <nav className="mt-2 flex-1 space-y-0.5 px-3">
+      <nav className="mt-2 flex-1 space-y-0.5 px-2.5 sm:px-3">
         {NAV_ITEMS.map((item) => {
           const active = isActive(item.path);
           const Icon = item.icon;
